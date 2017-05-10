@@ -9,3 +9,6 @@ requests==2.13.0
 
 # For serving the resulting feed.
 Flask==0.12.1
+
+# For running tests.
+pytest==3.0.7

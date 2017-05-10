@@ -4,15 +4,43 @@ import urllib
 import feedgenerator
 
 import mwparserfromhell
+from mwparserfromhell.definitions import get_html_tag, MARKUP_TO_HTML
 from mwparserfromhell.nodes import Comment, ExternalLink, Tag, Text, Wikilink
 
 import requests
+
+# The MARKUP_TO_HTML is missing a few things...this duck punches them in.
+MARKUP_TO_HTML.update({
+    "''": 'i',
+})
 
 
 ARTICLE_URL_FORMAT = 'https://en.wikipedia.org/wiki/{}'
 
 def wiki_url(title):
+    """Given a page titiel, return a URL suitable for linking."""
     return ARTICLE_URL_FORMAT.format(urllib.quote(title.encode('utf-8')))
+
+
+def format_wikicode(wikicode):
+    """Returns Unicode of Wikicode converted to HTML."""
+    result = u''
+
+    for node in wikicode.ifilter(recursive=False):
+        if isinstance(node, Tag):
+            # Get the HTML tag for this node.
+            tag = get_html_tag(node.wiki_markup)
+
+            # Convert all the children to HTML.
+            inner = ''.join(map(format_wikicode, node.__children__()))
+
+            # Create an HTML tag.
+            # TODO Handle attributes.
+            result += '<{}>{}</{}>'.format(tag, inner, tag)
+        else:
+            result += unicode(node)
+
+    return result
 
 
 def filter_empty(node):
@@ -123,11 +151,13 @@ def write_feed(lookup_date, events):
             if isinstance(node, Wikilink):
                 text = unicode(node.text or node.title)
                 title += text
-                description += u'<a href="{}">{}</a>'.format(wiki_url(text), text)
+                description += u'<a href="{}">{}</a>'.format(wiki_url(node.title), text)
+
             elif isinstance(node, ExternalLink):
                 # External links (sources) don't go in the title.
                 text = unicode(node.title or node.url)
-                description += u'<a href="{}">{}</a>'.format(node.url, text)
+                description += u'<a href="{}"><i>{}</i></a>'.format(node.url, text)
+
             else:
                 title += node.value
                 description += node.value
