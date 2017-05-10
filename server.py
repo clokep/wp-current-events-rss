@@ -1,13 +1,13 @@
 from flask import abort, Flask
 
-from parser import get_events
+from parser import get_articles
 
 application = Flask(__name__)
 
 
 @application.route("/")
 def serve():
-    return get_events()
+    return get_articles()
 
 
 if __name__ == "__main__":
