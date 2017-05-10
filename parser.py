@@ -1,4 +1,4 @@
-from datetime import date
+from datetime import date, datetime
 import urllib
 
 import feedgenerator
@@ -105,7 +105,7 @@ def get_events_from_article(article_content):
             if 'All news items below this line' in node:
                 start = i + 1
             elif 'All news items above this line' in node:
-                end = i - 1
+                end = i
                 break
 
     # Ignore nodes outside of the start/end.
@@ -113,6 +113,7 @@ def get_events_from_article(article_content):
 
     # Phase 2: Parse to each section.
     items = []
+    current_item = []
     i = 0
     while i < len(nodes):
         node = nodes[i]
@@ -122,23 +123,27 @@ def get_events_from_article(article_content):
 
         # Bulleted lists are used to start each news item.
         if isinstance(node, Tag) and node.wiki_markup == '*':
-            # Start collecting nodes.
-            current_item = []
-
+            # Don't look at the same node again.
+            i += 1
             while i < len(nodes):
-                # Get the next node.
-                i += 1
                 temp_node = nodes[i]
 
-                # If it isn't a text then back-up and break.
+                # Start collecting nodes. If it isn't a text-ish node then
+                # back-up in the list and break.
                 if isinstance(temp_node, (Text, Wikilink, ExternalLink)):
                     current_item.append(temp_node)
                 else:
                     i -= 1
                     items.append(current_item)
+                    current_item = []
                     break
 
+                i += 1
+
         i += 1
+
+    if current_item:
+        items.append(current_item)
 
     return items
 
@@ -148,7 +153,9 @@ def write_feed(lookup_date, events):
     Convert events (a list of list of nodes) to a feed.
 
     """
-    feed = feedgenerator.Rss201rev2Feed('Some title', 'some link', 'some description')
+    feed = feedgenerator.Rss201rev2Feed('Wikipedia: Portal: Current events',
+                                        'https://en.wikipedia.org/wiki/Portal:Current_events',
+                                        'some description')
 
     for event in events:
         # Generate a title as a plaintext version.
@@ -167,7 +174,10 @@ def write_feed(lookup_date, events):
 
             elif isinstance(node, ExternalLink):
                 # External links (sources) don't go in the title.
-                pass
+
+                # The first link gets set.
+                if not link:
+                    link = node.url
 
             else:
                 # HTML stripped version.
@@ -175,7 +185,7 @@ def write_feed(lookup_date, events):
 
             description += format_wikicode(node)
 
-        feed.add_item(title, link, description)
+        feed.add_item(title, link, description, pubdate=datetime(*lookup_date.timetuple()[:3]))
 
     return feed.writeString('utf-8')
 
