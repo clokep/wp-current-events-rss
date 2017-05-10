@@ -125,8 +125,8 @@ def write_feed(lookup_date, events):
                 title += text
                 description += u'<a href="{}">{}</a>'.format(wiki_url(text), text)
             elif isinstance(node, ExternalLink):
+                # External links (sources) don't go in the title.
                 text = unicode(node.title or node.url)
-                title += text
                 description += u'<a href="{}">{}</a>'.format(node.url, text)
             else:
                 title += node.value
@@ -134,8 +134,7 @@ def write_feed(lookup_date, events):
 
         feed.add_item(title, link, description)
 
-    with open('temp.rss', 'w') as f:
-        feed.write(f, 'utf-8')
+    return feed.writeString('utf-8')
 
 
 def get_events_by_date(lookup_date):
@@ -158,9 +157,10 @@ def get_events():
     https://en.wikipedia.org/wiki/Portal:Current_events/Inclusion
     which then includes the past seven days.
     """
-
-if __name__ == '__main__':
     yesterday = date(2017, 5, 8)
     
     events = get_events_by_date(yesterday)
-    write_feed(yesterday, events)
+    return write_feed(yesterday, events)
+
+if __name__ == '__main__':
+    get_events()

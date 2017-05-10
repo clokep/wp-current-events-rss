@@ -1,0 +1,11 @@
+# For parsing articles from Wikipedia.
+mwparserfromhell==0.4.4
+
+# For generating RSS.
+feedgenerator==1.9
+
+# For downloading articles from Wikipedia.
+requests==2.13.0
+
+# For serving the resulting feed.
+Flask==0.12.1
