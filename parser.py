@@ -1,5 +1,5 @@
 from datetime import date, datetime, timedelta
-import urllib
+from urllib.parse import quote as url_quote
 
 import feedgenerator
 
@@ -29,7 +29,7 @@ class WikicodeToHtmlComposer(object):
 
     def _get_url(self, title):
         """Given a page title, return a URL suitable for linking."""
-        safe_title = urllib.quote(title.encode('utf-8'))
+        safe_title = url_quote(title.encode('utf-8'))
         return self._article_url_format.format(safe_title)
 
     def compose(self, obj):
@@ -75,7 +75,7 @@ class WikicodeToHtmlComposer(object):
 
         else:
              # TODO Raise?
-            return unicode(obj)
+            return str(obj)
 
 
 def filter_templates(node):
