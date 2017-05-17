@@ -200,6 +200,7 @@ class WikicodeToHtmlComposer(object):
 
         return u''.join(self._parts)
 
+
 def filter_templates(node):
     """Remove nodes that are only whitespace."""
     return not isinstance(node, Template)
@@ -250,6 +251,20 @@ def get_articles():
         # Parse the article contents.
         wikicode = mwparserfromhell.parse(article)
         nodes = wikicode.filter(recursive=False, matches=filter_templates)
+
+        # Remove all nodes before / after the start / end comments.
+        start = 0
+        end = len(nodes) - 1
+        for i, node in enumerate(nodes):
+            if isinstance(node, Comment):
+                if 'All news items below this line' in node:
+                    start = i + 1
+                elif 'All news items above this line' in node:
+                    end = i
+                    break
+
+        # Ignore nodes outside of the start/end.
+        nodes = nodes[start:end]
 
         composer = WikicodeToHtmlComposer('https://en.wikipedia.org/wiki/')
 
