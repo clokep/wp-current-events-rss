@@ -1,5 +1,7 @@
 ## Wikipedia Current Events to RSS
 
+[![CircleCI](https://circleci.com/gh/clokep/wp-current-events-rss.svg?style=svg)](https://circleci.com/gh/clokep/wp-current-events-rss)
+
 **wp-current-events-rss** serves the last 7 days of
 [Wikipedia's Current Events](https://en.wikipedia.org/wiki/Portal:Current_events)
 as an RSS feed. This is deployed at https://wp-current-events-rss.herokuapp.com/.
