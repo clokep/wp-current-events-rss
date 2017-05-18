@@ -9,3 +9,6 @@ dependencies:
 test:
   override:
     - py.test
+  post:
+    # Check for style issues.
+    - flake8

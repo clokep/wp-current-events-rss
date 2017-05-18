@@ -1,2 +1,5 @@
 # For running tests.
 pytest==3.0.7
+
+# Style checking.
+flake8==3.3.0

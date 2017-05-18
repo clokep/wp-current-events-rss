@@ -1,8 +1,7 @@
 import mwparserfromhell
 
-import pytest
-
 from parser import WikicodeToHtmlComposer
+
 
 def test_formatting():
     """Test that simple formatting works."""
