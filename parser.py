@@ -266,7 +266,7 @@ def get_articles():
         # Ignore nodes outside of the start/end.
         nodes = nodes[start:end]
 
-        composer = WikicodeToHtmlComposer('https://en.wikipedia.org/wiki/')
+        composer = WikicodeToHtmlComposer()
 
         feed.add_item(title=u'Current events: {}'.format(day),
                       link=get_article_url(day),
