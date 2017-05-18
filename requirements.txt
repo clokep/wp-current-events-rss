@@ -5,7 +5,7 @@ mwparserfromhell==0.4.4
 feedgenerator==1.9
 
 # For downloading articles from Wikipedia.
-requests==2.13.0
+requests==2.14.2
 
 # For serving the resulting feed.
 Flask==0.12.1
