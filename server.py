@@ -1,4 +1,4 @@
-from flask import abort, Flask
+from flask import Flask
 
 from parser import get_articles
 
