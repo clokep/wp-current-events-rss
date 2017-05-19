@@ -16,4 +16,6 @@ page (an RSS feed). It pulls data from the last 7 days of current events from
 Wikipedia, e.g. a page like
 https://en.wikipedia.org/wiki/Portal:Current_events/2017_May_8. The Wikicode is
 parsed using [mwparserfromhell](http://mwparserfromhell.readthedocs.org/) to an
-AST which is then cleaned-up slightly and converted back into HTML.
+AST which is then cleaned-up slightly and converted back into HTML. Each day is
+served as an individual article using in an RSS feed generated using
+[FeedGenerator](https://github.com/getpelican/feedgenerator).
