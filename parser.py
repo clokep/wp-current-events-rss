@@ -230,7 +230,7 @@ def get_articles():
     """
     feed = feedgenerator.Rss201rev2Feed('Wikipedia: Portal: Current events',
                                         'https://en.wikipedia.org/wiki/Portal:Current_events',
-                                        'some description')
+                                        'Wikipedia: Portal: Current events')
 
     # Start at today.
     day = date.today()
