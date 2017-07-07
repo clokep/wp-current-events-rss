@@ -1,14 +1,14 @@
 # For parsing articles from Wikipedia.
-mwparserfromhell==0.4.4
+mwparserfromhell==0.5
 
 # For generating RSS.
 feedgenerator==1.9
 
 # For downloading articles from Wikipedia.
-requests==2.14.2
+requests==2.18.1
 
 # For serving the resulting feed.
-Flask==0.12.1
+Flask==0.12.2
 
 # For deploying.
 gunicorn==19.7.1
