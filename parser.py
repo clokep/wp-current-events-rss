@@ -20,6 +20,10 @@ class UnknownNode(Exception):
     pass
 
 
+class HtmlComposingError(Exception):
+    pass
+
+
 class WikicodeToHtmlComposer(object):
     """
     Format HTML from Parsed Wikicode.
@@ -57,7 +61,7 @@ class WikicodeToHtmlComposer(object):
         if tag not in self._stack:
             # TODO
             if raise_on_missing:
-                raise RuntimeError('Uh oh')
+                raise HtmlComposingError('Unable to close given tags.')
             else:
                 return
 
@@ -260,10 +264,13 @@ def get_articles():
 
         composer = WikicodeToHtmlComposer()
 
-        feed.add_item(title=u'Current events: {}'.format(day),
-                      link=get_article_url(day),
-                      description=composer.compose(nodes),
-                      pubdate=datetime(*day.timetuple()[:3]))
+        try:
+            feed.add_item(title=u'Current events: {}'.format(day),
+                          link=get_article_url(day),
+                          description=composer.compose(nodes),
+                          pubdate=datetime(*day.timetuple()[:3]))
+        except HtmlComposingError:
+            print("Unable to render article from: {}".format(day))
 
     return feed.writeString('utf-8')
 
