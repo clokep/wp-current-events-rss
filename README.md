@@ -2,9 +2,11 @@
 
 [![CircleCI](https://circleci.com/gh/clokep/wp-current-events-rss.svg?style=svg)](https://circleci.com/gh/clokep/wp-current-events-rss)
 
+**Deprecation notice:** This is no longer being developed here. This was previously deployed on Heroku, but is now deployed at https://www.to-rss.xyz/wikipedia/
+
 **wp-current-events-rss** serves the last 7 days of
 [Wikipedia's Current Events](https://en.wikipedia.org/wiki/Portal:Current_events)
-as an RSS feed. This is deployed at https://wp-current-events-rss.herokuapp.com/.
+as an RSS feed. This is deployed at https://www.to-rss.xyz/wikipedia/.
 
 Information is pulled on demand on each refresh of the page (and is always
 current).
