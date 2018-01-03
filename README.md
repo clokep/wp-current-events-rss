@@ -2,7 +2,7 @@
 
 [![CircleCI](https://circleci.com/gh/clokep/wp-current-events-rss.svg?style=svg)](https://circleci.com/gh/clokep/wp-current-events-rss)
 
-**Deprecation notice:** This is no longer being developed here. This was previously deployed on Heroku, but is now deployed at https://www.to-rss.xyz/wikipedia/
+**Deprecation notice:** This is no longer being developed here. This was previously deployed on Heroku, but is now deployed at https://www.to-rss.xyz/wikipedia/ The new source is available at https://gitlab.com/clokep/to-rss/
 
 **wp-current-events-rss** serves the last 7 days of
 [Wikipedia's Current Events](https://en.wikipedia.org/wiki/Portal:Current_events)
